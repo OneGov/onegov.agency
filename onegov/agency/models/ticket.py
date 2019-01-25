@@ -15,10 +15,16 @@ class AgencyMutationTicket(OrgTicketMixin, Ticket):
     __mapper_args__ = {'polymorphic_identity': 'AGN'}
     es_type_name = 'agency_tickets'
 
+    def reference_group(self, request):
+        return self.title
+
 
 class PersonMutationTicket(OrgTicketMixin, Ticket):
     __mapper_args__ = {'polymorphic_identity': 'PER'}
     es_type_name = 'person_tickets'
+
+    def reference_group(self, request):
+        return self.title
 
 
 @handlers.registered_handler('AGN')

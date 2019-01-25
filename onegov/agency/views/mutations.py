@@ -40,7 +40,7 @@ def report_agency_change(self, request, form):
         send_ticket_mail(
             request=request,
             template='mail_ticket_opened.pt',
-            subject=_("A ticket has been opened"),
+            subject=_("Your ticket has been opened"),
             receivers=(form.email.data, ),
             ticket=ticket
         )
@@ -85,7 +85,7 @@ def report_person_change(self, request, form):
         send_ticket_mail(
             request=request,
             template='mail_ticket_opened.pt',
-            subject=_("A ticket has been opened"),
+            subject=_("Your ticket has been opened"),
             receivers=(form.email.data, ),
             ticket=ticket
         )
