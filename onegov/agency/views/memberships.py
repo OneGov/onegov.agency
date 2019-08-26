@@ -4,7 +4,8 @@ from onegov.agency import _
 from onegov.agency import AgencyApp
 from onegov.agency.forms import MembershipForm
 from onegov.agency.layouts import MembershipLayout
-from onegov.agency.models import AgencyMembershipMove
+from onegov.agency.models import AgencyMembershipMoveWithinAgency
+from onegov.agency.models.move import AgencyMembershipMoveWithinPerson
 from onegov.core.security import Private
 from onegov.core.security import Public
 from onegov.org.elements import Link
@@ -68,11 +69,21 @@ def delete_membership(self, request):
 
 
 @AgencyApp.view(
-    model=AgencyMembershipMove,
+    model=AgencyMembershipMoveWithinAgency,
     permission=Private,
     request_method='PUT'
 )
-def move_membership(self, request):
+def move_membership_within_agency(self, request):
+    request.assert_valid_csrf_token()
+    self.execute()
+
+
+@AgencyApp.view(
+    model=AgencyMembershipMoveWithinPerson,
+    permission=Private,
+    request_method='PUT'
+)
+def move_membership_within_person(self, request):
     request.assert_valid_csrf_token()
     self.execute()
 

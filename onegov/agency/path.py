@@ -1,9 +1,10 @@
 from onegov.agency.app import AgencyApp
 from onegov.agency.collections import ExtendedAgencyCollection
 from onegov.agency.collections import ExtendedPersonCollection
-from onegov.agency.models import AgencyMembershipMove
+from onegov.agency.models import AgencyMembershipMoveWithinAgency
 from onegov.agency.models import AgencyMove
 from onegov.agency.models import AgencyProxy
+from onegov.agency.models.move import AgencyMembershipMoveWithinPerson
 from onegov.people import Agency
 from onegov.people import AgencyMembership
 from onegov.people import AgencyMembershipCollection
@@ -63,12 +64,26 @@ def get_membership(app, id):
 
 
 @AgencyApp.path(
-    model=AgencyMembershipMove,
-    path='/move/membership/{subject_id}/{direction}/{target_id}',
+    model=AgencyMembershipMoveWithinAgency,
+    path='/move-for-agency/membership/{subject_id}/{direction}/{target_id}',
     converters=dict(subject_id=UUID, target_id=UUID)
 )
-def get_membership_move(app, subject_id, direction, target_id):
-    return AgencyMembershipMove(
+def get_membership_move_for_agency(app, subject_id, direction, target_id):
+    return AgencyMembershipMoveWithinAgency(
+        app.session(),
+        subject_id,
+        target_id,
+        direction
+    )
+
+
+@AgencyApp.path(
+    model=AgencyMembershipMoveWithinPerson,
+    path='/move-for-person/membership/{subject_id}/{direction}/{target_id}',
+    converters=dict(subject_id=UUID, target_id=UUID)
+)
+def get_membership_move_for_person(app, subject_id, direction, target_id):
+    return AgencyMembershipMoveWithinPerson(
         app.session(),
         subject_id,
         target_id,

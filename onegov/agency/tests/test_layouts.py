@@ -94,8 +94,8 @@ def test_agency_layout():
     assert path(layout.breadcrumbs) == \
         'DummyOrg/ExtendedAgencyCollection/ExtendedAgency'
     assert layout.move_agency_url_template == 'AgencyMove/?csrf-token=x'
-    assert layout.move_membership_url_template == \
-        'AgencyMembershipMove/?csrf-token=x'
+    assert layout.move_membership_within_agency_url_template == \
+        'AgencyMembershipMoveWithinAgency/?csrf-token=x'
 
     # Log in as manager
     request.is_manager = True
